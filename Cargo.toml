@@ -1,14 +1,13 @@
 [package]
 name = "cargo-licensepull"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["mhnghfv"]
 edition = "2018"
 license = "0BSD"
-description = "Extracts the content of LICENSE files of dependencies"
+description = "Cargo subcommand to extracts the content of LICENSE files of dependencies"
 readme = "README.md"
 repository = "https://github.com/mhnghfv/cargo-licensepull"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+categories = ["development-tools::cargo-plugins"]
 
 [dependencies]
 cargo_metadata = "0.13.1"

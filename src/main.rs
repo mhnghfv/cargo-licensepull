@@ -2,7 +2,12 @@ use cargo_metadata::{MetadataCommand};
 use regex::Regex;
 
 fn main() {
+    let mut argsi = std::env::args();
+    argsi.next();
+    argsi.next();
+    let args: Vec<String> = argsi.collect();
     let metadata = MetadataCommand::new()
+    .other_options(args)
     .exec()
     .unwrap();
     for package in metadata.packages {
@@ -15,14 +20,14 @@ fn main() {
         package.description.map(|desc| println!("{}", desc));
         let mut path = package.manifest_path;
         path.pop();
-        print_license(path, package.license).unwrap_or_else(
-            |()| eprintln!("No license file found for {}", name)
+        print_license(&path, package.license).unwrap_or_else(
+            |()| eprintln!("No license file found for {}:\n{}", name, path)
         );
         println!("");
     }
 }
 
-fn print_license(path: cargo_metadata::camino::Utf8PathBuf, licenses: Option<String>) -> Result<(), ()> {
+fn print_license(path: &cargo_metadata::camino::Utf8PathBuf, licenses: Option<String>) -> Result<(), ()> {
     let filename_regex = Regex::new(r"^(unlicense.*|copying.*|license.*|notice|notice.txt)").unwrap();
     let license: String;
     match licenses {
